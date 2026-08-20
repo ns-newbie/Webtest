@@ -1,0 +1,10 @@
+
+ body { font-family: sans-serif; margin: 20px; }
+   
+.products { display: flex; gap: 15px; flex-wrap: wrap; }
+   
+.card { border: 1px solid #ccc; padding: 10px; border-radius: 5px; width: 150px; text-align: center; }
+   
+.cart { margin-top: 20px; padding: 10px; background: #f9f9f9; border: 1px solid #ddd; }
+   
+button { cursor: pointer; background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; }
