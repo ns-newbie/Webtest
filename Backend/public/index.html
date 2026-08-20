@@ -2,21 +2,118 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Trang Web Bán Hàng Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
+  <title>NovaShop — Cửa hàng online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>Danh Sách Sản Phẩm</h2>
-  <div class="products" id="productList"></div>
+  <div class="topbar">🚚 Miễn phí giao hàng cho đơn từ 500.000₫ · Hỗ trợ 24/7</div>
 
-  <div class="cart">
-    <h2>Giỏ Hàng Test</h2>
-    <ul id="cartItems"></ul>
-    <p><strong>Tổng tiền:</strong> <span id="totalPrice">0</span> VNĐ</p>
-    <button onclick="checkout()">Thanh Toán Test</button>
+  <header class="header">
+    <a class="brand" href="#">Nova<span>Shop</span></a>
+    <form class="search" id="searchForm">
+      <input id="searchInput" type="search" placeholder="Tìm kiếm sản phẩm..." autocomplete="off">
+      <button aria-label="Tìm kiếm">⌕</button>
+    </form>
+    <button class="cart-button" id="openCart">
+      🛒 <span>Giỏ hàng</span><b id="cartCount">0</b>
+    </button>
+  </header>
+
+  <nav class="nav">
+    <a href="#home">Trang chủ</a>
+    <a href="#products">Sản phẩm</a>
+    <a href="#about">Giới thiệu</a>
+    <button id="scrollProducts">Mua sắm ngay →</button>
+  </nav>
+
+  <main id="home">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">BỘ SƯU TẬP MỚI 2026</span>
+        <h1>Mua sắm đơn giản.<br><span>Phong cách hơn.</span></h1>
+        <p>Khám phá những sản phẩm được chọn lọc với mức giá dễ tiếp cận. Giao diện này kết nối trực tiếp với API sản phẩm hiện tại của Webtest.</p>
+        <button class="primary" id="heroShop">Khám phá sản phẩm</button>
+      </div>
+      <div class="hero-card">
+        <div class="hero-orb">✦</div>
+        <small>DEAL HÔM NAY</small>
+        <strong>Giảm đến 30%</strong>
+        <span>Cho một số sản phẩm nổi bật</span>
+      </div>
+    </section>
+
+    <section class="features">
+      <div>🚚 <span><b>Giao hàng nhanh</b><small>Toàn quốc</small></span></div>
+      <div>🔒 <span><b>Thanh toán an toàn</b><small>Demo / test</small></span></div>
+      <div>↩️ <span><b>Đổi trả dễ dàng</b><small>Trong 7 ngày</small></span></div>
+      <div>💬 <span><b>Hỗ trợ nhiệt tình</b><small>24/7</small></span></div>
+    </section>
+
+    <section class="section" id="products">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">KHÁM PHÁ</span>
+          <h2>Sản phẩm nổi bật</h2>
+        </div>
+        <div class="filters">
+          <button class="filter active" data-sort="default">Tất cả</button>
+          <button class="filter" data-sort="low">Giá thấp</button>
+          <button class="filter" data-sort="high">Giá cao</button>
+        </div>
+      </div>
+      <div id="status" class="status">Đang tải sản phẩm...</div>
+      <div class="products" id="productList"></div>
+    </section>
+
+    <section class="newsletter" id="about">
+      <div>
+        <span class="eyebrow">NOVASHOP</span>
+        <h2>Một cửa hàng nhỏ, một nền tảng để em phát triển.</h2>
+        <p>Frontend này được thiết kế để em có thể tiếp tục thêm đăng nhập, quản trị sản phẩm, đơn hàng và thanh toán sau này.</p>
+      </div>
+      <div class="newsletter-badge">WEBTEST<br><strong>v2</strong></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="brand">Nova<span>Shop</span></div>
+    <p>© 2026 NovaShop · Project test của Webtest</p>
+  </footer>
+
+  <div class="overlay" id="overlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="drawer-head">
+      <div><span class="eyebrow">YOUR CART</span><h2>Giỏ hàng</h2></div>
+      <button class="close" id="closeCart">×</button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-bottom">
+      <div class="total-row"><span>Tạm tính</span><strong id="totalPrice">0₫</strong></div>
+      <button class="primary full" id="checkoutButton">Đặt hàng thử</button>
+      <small class="muted">Đây là thanh toán thử nghiệm, chưa kết nối cổng thanh toán thật.</small>
+    </div>
+  </aside>
+
+  <div class="modal" id="checkoutModal">
+    <div class="modal-box">
+      <button class="close" id="closeModal">×</button>
+      <span class="eyebrow">TEST CHECKOUT</span>
+      <h2>Thông tin nhận hàng</h2>
+      <form id="checkoutForm">
+        <label>Họ và tên<input required name="name" placeholder="Nguyễn Văn A"></label>
+        <label>Số điện thoại<input required name="phone" inputmode="tel" placeholder="09xxxxxxxx"></label>
+        <label>Địa chỉ<input required name="address" placeholder="Số nhà, đường, phường/xã..."></label>
+        <button class="primary full" type="submit">Xác nhận đặt hàng</button>
+      </form>
+    </div>
   </div>
 
-  
+  <div class="toast" id="toast"></div>
   <script src="script.js"></script>
 </body>
 </html>
